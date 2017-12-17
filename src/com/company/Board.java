@@ -16,7 +16,7 @@ public class Board {
             showBoard();
             String winner = checkWinner();
             if (winner != null){
-                System.out.println("Player: " + winner + " won match!");
+                System.out.println("Player: " + winner + " won match!\n");
                 this.winner = winner;
                 return 1;
             }
@@ -25,6 +25,35 @@ public class Board {
         } else {
             return -1;
         }
+    }
+    public String sendBoard(){
+        String boardString ="";
+        for (int i=0; i<3; i++){
+            for (int j=0; j<3; j++){
+                if(board[i][j] != null){
+                    boardString += board[i][j];
+                } else {
+                    boardString += "/";
+                }
+            }
+        }
+        return boardString;
+    }
+    public void loadBoard(String input) {
+        int j = -1;
+        String[][] newBoard = new String[3][3];
+        for (int i = 0; i < input.length(); i++) {
+            if((i%3) == 0)
+                j++;
+            String sign = input.substring(i,i+1);
+            //System.out.println(sign);
+            if(!sign.equals("/")) {
+                newBoard[j][i%3] = sign;
+            } else {
+                newBoard[j][i%3] = null;
+            }
+        }
+        this.board = newBoard;
     }
     private void showBoard(){
         for (int i=0; i<3; i++) {
