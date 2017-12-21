@@ -11,10 +11,11 @@ public class Server extends Thread {
     private DataInputStream in2;
     private SocketAddress player1Address;
     private SocketAddress player2Address;
+    private Board board;
 
     public Server(int port) throws IOException {
         serverSocket = new ServerSocket(port);
-        serverSocket.setSoTimeout(10000);
+        board = new Board();
     }
 
     public void run() {
@@ -25,11 +26,11 @@ public class Server extends Thread {
 
                 player1 = serverSocket.accept();
                 player1Address = player1.getRemoteSocketAddress();
-                System.out.println("Just connected to " + player1Address);
+                System.out.println("Player1: " + player1Address);
 
                 player2 = serverSocket.accept();
                 player2Address = player2.getRemoteSocketAddress();
-                System.out.println("Just connected to " + player2Address);
+                System.out.println("Player2: " + player2Address);
 
                 open();
                 boolean done = false;
@@ -63,5 +64,8 @@ public class Server extends Thread {
         if (player2 != null) player2.close();
         if (in1 != null) in1.close();
         if (in2 != null) in2.close();
+    }
+    private boolean validateInput(int[] field){
+
     }
 }
