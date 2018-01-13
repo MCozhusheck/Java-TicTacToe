@@ -82,14 +82,7 @@ public class Server extends Thread {
         out.writeUTF("Write row: ");
         out.flush();
         System.out.println("line 84 server");
-        int row;
-
-        while (true){
-            row = in.readInt();
-            System.out.println(row);
-            if (row > 15)
-                break;
-        }
+        int row = in.readInt();
         System.out.println("line 86 server");
 
         out.writeUTF("Write column: ");
