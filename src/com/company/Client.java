@@ -2,18 +2,22 @@ package com.company;
 
 import java.net.*;
 import java.io.*;
+import java.util.Scanner;
 
-public class Client {
+public class Client extends Thread{
     private Socket socket = null;
-    private DataInputStream console = null;
+    private Scanner console = null;
+    private DataInputStream streamIn = null;
     private DataOutputStream streamOut = null;
+    private boolean gameEnds;
 
     public Client(String serverName, int serverPort) {
         System.out.println("Establishing connection. Please wait ...");
+        gameEnds = false;
         try {
             socket = new Socket(serverName, serverPort);
             System.out.println("Connected: " + socket);
-            start();
+            open();
         } catch (UnknownHostException uhe) {
             System.out.println("Host unknown: " + uhe.getMessage());
         } catch (IOException ioe) {
@@ -22,26 +26,39 @@ public class Client {
         String line = "";
         while (!line.equals(".bye")) {
             try {
-                line = console.readLine();
+                run();
+                line = console.nextLine();
                 streamOut.writeUTF(line);
                 streamOut.flush();
             } catch (IOException ioe) {
                 System.out.println("Sending error: " + ioe.getMessage());
             }
         }
-        stop();
+        gameEnds = true;
+        close();
     }
+    public void run(){
 
-    public void start() throws IOException {
-        console = new DataInputStream(System.in);
+        while (!gameEnds){
+            try {
+                String message = streamIn.readUTF();
+                System.out.println(message);
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+    }
+    private void open() throws IOException {
+        console = new Scanner(System.in);
         streamOut = new DataOutputStream(socket.getOutputStream());
+        streamIn = new DataInputStream(socket.getInputStream());
     }
-
-    public void stop() {
+    private void close() {
         try {
             if (console != null) console.close();
             if (streamOut != null) streamOut.close();
             if (socket != null) socket.close();
+            if (streamIn != null) streamIn.close();
         } catch (IOException ioe) {
             System.out.println("Error closing ...");
         }

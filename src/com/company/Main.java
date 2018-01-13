@@ -1,18 +1,24 @@
 package com.company;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        Board game1 = new Board();
-        game1.putSign(new int[]{0,0});
-        game1.putSign(new int[]{1,1});
-        game1.putSign(new int[]{0,2});
-        game1.putSign(new int[]{1,2});
-        game1.putSign(new int[]{0,1});
-        Board game2 = new Board();
-        game2.loadBoard(game1.sendBoard());
-        game2.putSign(new int[]{1,0});
+        BufferedReader d = new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("choose 1 to create server on port 6666");
+        System.out.println("choose 2 to create client");
+
+        String input = d.readLine();
+
+        if (input.equals("1")){
+            Server server = new Server(6666);
+            server.run();
+        } else if (input.equals("2")) {
+            Client client = new Client("localhost", 6666);
+        }
     }
 }

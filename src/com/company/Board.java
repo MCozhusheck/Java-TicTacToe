@@ -1,10 +1,10 @@
 package com.company;
 
 public class Board {
-    private static final String[] PLAYERS = {"X","O"};
+    public static final String[] PLAYERS = {"X","O"};
     private String[][] board;
     private String currentPlayer;
-    public String winner;
+    private String winner;
 
     public Board(){
         board = new String[3][3];
@@ -16,7 +16,7 @@ public class Board {
             showBoard();
             String winner = checkWinner();
             if (winner != null){
-                System.out.println("Player: " + winner + " won match!\n");
+                //System.out.println("Player: " + winner + " won match!\n");
                 this.winner = winner;
                 return 1;
             }
@@ -82,7 +82,7 @@ public class Board {
             currentPlayer = PLAYERS[0];
         }
     }
-    private String checkWinner(){
+    public String checkWinner(){
         String winner = null;
 
         for (int i=0; i<3; i++){
