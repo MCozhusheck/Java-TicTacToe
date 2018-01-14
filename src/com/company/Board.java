@@ -10,34 +10,33 @@ public class Board {
         board = new String[3][3];
         currentPlayer = PLAYERS[0];
     }
-    public int putSign(int[] field){
+    public boolean putSign(int[] field){
         if (fieldIsEmpty(field)) {
             board[field[0]][field[1]] = currentPlayer;
-            showBoard();
+            System.out.print(showBoard());
             String winner = checkWinner();
             if (winner != null){
                 //System.out.println("Player: " + winner + " won match!\n");
                 this.winner = winner;
-                return 1;
             }
             switchPlayer();
-            return 0;
+            return true;
         } else {
-            return -1;
+            return false;
         }
     }
     public String sendBoard(){
-        String boardString ="";
+        StringBuilder boardString = new StringBuilder();
         for (int i=0; i<3; i++){
             for (int j=0; j<3; j++){
                 if(board[i][j] != null){
-                    boardString += board[i][j];
+                    boardString.append(board[i][j]);
                 } else {
-                    boardString += "/";
+                    boardString.append("/");
                 }
             }
         }
-        return boardString;
+        return boardString.toString();
     }
     public void loadBoard(String input) {
         int j = -1;
@@ -55,24 +54,26 @@ public class Board {
         }
         this.board = newBoard;
     }
-    private void showBoard(){
+    public String showBoard(){
+        StringBuilder sBuilder = new StringBuilder();
+        sBuilder.append("\n");
         for (int i=0; i<3; i++) {
             for (int j=0; j<2; j++){
                 if (board[i][j] != null) {
-                    System.out.print(board[i][j] + " | ");
+                    sBuilder.append(board[i][j] + " | ");
                 } else {
-                    System.out.print("  | ");
+                    sBuilder.append("  | ");
                 }
             }
             if (board[i][2] != null) {
-                System.out.print(board[i][2] + "\n");
+                sBuilder.append(board[i][2] + "\n");
             } else {
-                System.out.print(" \n");
+                sBuilder.append(" \n");
             }
         }
-        System.out.println();
+        return sBuilder.toString();
     }
-    private boolean fieldIsEmpty(int[] field){
+    public boolean fieldIsEmpty(int[] field){
         return (board[field[0]][field[1]] == null);
     }
     private void switchPlayer(){

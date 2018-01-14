@@ -14,11 +14,11 @@ public class Main {
 
         String input = d.readLine();
 
-        if (input.equals("1")){
+        if (input.equals("1")) {
             Server server = new Server(6666);
-            server.run();
-        } else if (input.equals("2")) {
-            Client client = new Client("localhost", 6666);
+            server.start();
+        } else {
+            Client client = new Client("localhost",6666);
         }
     }
 }
