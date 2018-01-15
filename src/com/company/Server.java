@@ -12,6 +12,8 @@ public class Server extends Thread {
     private DataInputStream in2;
     private DataOutputStream out1;
     private DataOutputStream out2;
+    private String player1Sign;
+    private String player2Sign;
     private Board board;
 
     public Server(int port) throws IOException {
@@ -32,21 +34,12 @@ public class Server extends Thread {
             while (!done) {
                 try {
                     out2.writeUTF("player 1 move");
-                    insertSign(readPosition(in1,out1));
-                    sendBoardToPlayers();
-                    done = (board.checkWinner() != null);
-                    if (done){
-                        out1.writeUTF(".bye");
-                        out2.writeUTF(".bye");
-                    }
+                    playerTurn(in1,out1);
+                    done = isGameOver();
+
                     out1.writeUTF("player 2 move");
-                    insertSign(readPosition(in2,out2));
-                    sendBoardToPlayers();
-                    done = (board.checkWinner() != null);
-                    if (done){
-                        out1.writeUTF(".bye");
-                        out2.writeUTF(".bye");
-                    }
+                    playerTurn(in2,out2);
+                    done = isGameOver();
                 } catch (IOException ioe) {
                     done = true;
                 }
@@ -60,10 +53,12 @@ public class Server extends Thread {
         try {
             System.out.println("Waiting for a client ...");
             player1 = server.accept();
+            player1Sign = Board.PLAYERS[0];
             System.out.println("Client accepted: " + player1);
 
             System.out.println("Waiting for a client ...");
             player2 = server.accept();
+            player2Sign = Board.PLAYERS[1];
             System.out.println("Client accepted: " + player2);
         } catch (IOException e){
             e.printStackTrace();
@@ -112,5 +107,28 @@ public class Server extends Thread {
     private void sendBoardToPlayers() throws IOException{
         out1.writeUTF(board.showBoard());
         out2.writeUTF(board.showBoard());
+    }
+    private void playerTurn(DataInputStream in, DataOutputStream out) throws IOException{
+        insertSign(readPosition(in,out));
+        sendBoardToPlayers();
+    }
+    private boolean isGameOver() throws IOException{
+        boolean gameIsOver = false;
+        if (gameIsOver = (board.checkWinner() != null)){
+            announceWinner();
+            out1.writeUTF(".bye");
+            out2.writeUTF(".bye");
+        }
+        return gameIsOver;
+    }
+    private void announceWinner() throws IOException{
+        String winner = board.checkWinner();
+        if (winner.equals(player1Sign)){
+            out1.writeUTF("you won!");
+            out2.writeUTF("you lost!");
+        } else {
+            out1.writeUTF("you lost!");
+            out2.writeUTF("you won!");
+        }
     }
 }
