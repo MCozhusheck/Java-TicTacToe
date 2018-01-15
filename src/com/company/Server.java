@@ -21,11 +21,12 @@ public class Server implements Runnable {
         board = new Board();
         server = socket;
         this.port = port;
+        connectToPlayers();
     }
     public void run() {
         System.out.println(Thread.currentThread().getName());
         try {
-            connectToPlayers();
+            //connectToPlayers();
             open();
             boolean done = false;
             while (!done) {
@@ -46,12 +47,11 @@ public class Server implements Runnable {
             System.out.println("Acceptance Error: " + ie);
         }
     }
-    private void connectToPlayers(){
+    private synchronized void connectToPlayers(){
         try {
             //System.out.println("Binding to port " + port + ", please wait  ...");
             //server = new ServerSocket(port);
             //System.out.println("Server started: " + server);
-
             System.out.println("Waiting for a client ...");
             player1 = server.accept();
             player1Sign = Board.PLAYERS[0];

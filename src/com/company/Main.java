@@ -15,7 +15,7 @@ public class Main {
         String input = d.readLine();
 
         if (input.equals("1")) {
-            ServerPool serverPool = new ServerPool(10,1);
+            ServerPool serverPool = new ServerPool(10,2);
             serverPool.startServer();
         } else {
             new Client("localhost",6666).startGame();

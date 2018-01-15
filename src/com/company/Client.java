@@ -17,6 +17,7 @@ public class Client extends Thread{
         try {
             socket = new Socket(serverName, serverPort);
             System.out.println("Connected: " + socket);
+            System.out.println("waiting for slot ... ");
             open();
         } catch (UnknownHostException uhe) {
             System.out.println("Host unknown: " + uhe.getMessage());
@@ -27,7 +28,7 @@ public class Client extends Thread{
     public void startGame(){
         String line = "";
         start();
-        while (!line.equals(".bye")) {
+        while (!gameEnds) {
             try {
                 line = console.readLine();
                 streamOut.writeUTF(line);
