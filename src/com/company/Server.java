@@ -4,7 +4,7 @@ import javax.xml.crypto.Data;
 import java.net.*;
 import java.io.*;
 
-public class Server extends Thread {
+public class Server implements Runnable {
     private ServerSocket server;
     private Socket player1;
     private Socket player2;
@@ -22,6 +22,7 @@ public class Server extends Thread {
         this.port = port;
     }
     public void run() {
+        System.out.println(Thread.currentThread().getName());
         try {
             connectToPlayers();
             open();

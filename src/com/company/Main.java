@@ -15,11 +15,11 @@ public class Main {
         String input = d.readLine();
 
         if (input.equals("1")) {
-            Server server = new Server(6666);
-            server.start();
+            //ServerPool serverPool = new ServerPool(10,3);
+            //serverPool.startServer();
+            new Server(6666).run();
         } else {
-            Client client = new Client("localhost",6666);
-            client.startGame();
+            new Client("localhost",6666).startGame();
         }
     }
 }

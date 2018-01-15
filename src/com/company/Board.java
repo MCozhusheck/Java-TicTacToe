@@ -13,7 +13,7 @@ public class Board {
     public boolean putSign(int[] field){
         if (fieldIsEmpty(field)) {
             board[field[0]][field[1]] = currentPlayer;
-            System.out.print(showBoard());
+            //System.out.print(showBoard());
             String winner = checkWinner();
             if (winner != null){
                 //System.out.println("Player: " + winner + " won match!\n");
