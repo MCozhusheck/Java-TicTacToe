@@ -19,6 +19,7 @@ public class Main {
             server.start();
         } else {
             Client client = new Client("localhost",6666);
+            client.startGame();
         }
     }
 }

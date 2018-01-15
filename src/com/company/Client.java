@@ -23,6 +23,8 @@ public class Client extends Thread{
         } catch (IOException ioe) {
             System.out.println("Unexpected exception: " + ioe.getMessage());
         }
+    }
+    public void startGame(){
         String line = "";
         start();
         while (!line.equals(".bye")) {
@@ -51,12 +53,12 @@ public class Client extends Thread{
             }
         }
     }
-    public void open() throws IOException {
+    private void open() throws IOException {
         console = new BufferedReader(new InputStreamReader(System.in));
         streamOut = new DataOutputStream(socket.getOutputStream());
         streamIn = new DataInputStream(socket.getInputStream());
     }
-    public void close() {
+    private void close() {
         try {
             if (console != null) console.close();
             if (streamOut != null) streamOut.close();

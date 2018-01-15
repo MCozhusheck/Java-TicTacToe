@@ -15,16 +15,11 @@ public class Server extends Thread {
     private String player1Sign;
     private String player2Sign;
     private Board board;
+    int port;
 
-    public Server(int port) throws IOException {
-        try {
-            System.out.println("Binding to port " + port + ", please wait  ...");
-            server = new ServerSocket(port);
-            System.out.println("Server started: " + server);
-            board = new Board();
-        } catch (IOException ioe) {
-            System.out.println(ioe);
-        }
+    public Server(int port) {
+        board = new Board();
+        this.port = port;
     }
     public void run() {
         try {
@@ -51,6 +46,10 @@ public class Server extends Thread {
     }
     private void connectToPlayers(){
         try {
+            System.out.println("Binding to port " + port + ", please wait  ...");
+            server = new ServerSocket(port);
+            System.out.println("Server started: " + server);
+
             System.out.println("Waiting for a client ...");
             player1 = server.accept();
             player1Sign = Board.PLAYERS[0];
