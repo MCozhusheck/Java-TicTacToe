@@ -17,8 +17,9 @@ public class Server implements Runnable {
     private Board board;
     int port;
 
-    public Server(int port) {
+    public Server(int port, ServerSocket socket) {
         board = new Board();
+        server = socket;
         this.port = port;
     }
     public void run() {
@@ -47,9 +48,9 @@ public class Server implements Runnable {
     }
     private void connectToPlayers(){
         try {
-            System.out.println("Binding to port " + port + ", please wait  ...");
-            server = new ServerSocket(port);
-            System.out.println("Server started: " + server);
+            //System.out.println("Binding to port " + port + ", please wait  ...");
+            //server = new ServerSocket(port);
+            //System.out.println("Server started: " + server);
 
             System.out.println("Waiting for a client ...");
             player1 = server.accept();
@@ -131,4 +132,5 @@ public class Server implements Runnable {
             out2.writeUTF("you won!");
         }
     }
+
 }
